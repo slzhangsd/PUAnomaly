@@ -1,0 +1,8 @@
+%!TEX root = ../cluster_semi.tex
+\begin{abstract}
+
+Internet-based services monitor and detect anomalies on 
+% thousands to millions of
+ \textit{KPIs} (\textit{Key Performance Indicators}, say CPU utilization, number of queries per second, response latency) of their applications and systems in order to keep their services reliable. This paper identifies a common, important, yet little-studied problem of KPI anomaly detection: \textit{rapid deployment of anomaly detection models for large number of emerging KPI streams, without manual algorithm selection, parameter tuning, or new anomaly labeling for any newly emerging KPI streams}. We propose the first framework \name{} (\textit{Anomaly Detection through Self-training}) that tackles the above problem, via clustering and semi-supervised learning. Our extensive experiments using real-world data show that, with the labels of only the 5 cluster centroids of 70 historical KPI streams, \name~achieves an averaged best F-score of 0.92 on 81 new KPI streams, almost the same as a state-of-art supervised approach, and greatly outperforming a state-of-art unsupervised approach by 61.40\% on average. 
+
+\end{abstract}

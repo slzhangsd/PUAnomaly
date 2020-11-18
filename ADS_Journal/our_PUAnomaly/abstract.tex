@@ -1,0 +1,12 @@
+%!TEX root = ../cluster_semi.tex
+\begin{abstract}
+To ensure the reliability of software applications and systems, Internet-based services monitor and detect anomalies for their KPI streams (Key Performance Indicator, such as CPU utilization, number of queries per second, response latency). %However,
+Neither unsupervised nor supervised learning methods meet the requirements of anomaly detection because of the large number of KPI streams and the lack of labels. Semi-supervised learning methods ensure the accuracy of anomaly detection with reducing the manual labeling effort, however, all samples in specific time series  segments need to be carefully labeled.
+In this paper, we propose \name{}, which integrates both PU learning and active learning techniques.
+% PU learning enables us to train an anomaly detection model by only randomly labeling a few anomalies of several typical historical/existing KPI streams.
+PU learning allows us to train an anomaly detection model only by randomly labeling a small number of anomalies in a few typical historical/existing KPI streams.
+Active learning is applied to select the most reliable samples for manual labeling in the iterations of PU learning.
+%Through experiments,we show that
+\name{} achieves the best F-score over 0.83 on 80 new KPI streams, almost as the same as a state-of-the-art supervised approach, greatly outperforming a state-of-the-art unsupervised approach. Compared with the semi-supervised method, the bset F-score of \name{} is about 0.19 higher than the semi-supervised.
+
+\end{abstract}

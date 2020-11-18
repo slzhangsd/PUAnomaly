@@ -1,0 +1,8 @@
+%!TEX root = ../cluster_semi.tex
+\section{Conclusion}
+\label{sec:conclusion}
+
+ To the best of our knowledge, this paper is the first to identify the common and important problem of \textit{rapid deployment of anomaly detection models for large number of emerging KPI streams, without manual algorithm selection, parameter tuning, or new anomaly labeling for any newly generated KPI streams}. We propose the first framework \name{} that tackles this problem via clustering and semi-supervised learning, which is the first time that semi-supervised learning is applied to KPI anomaly detection. 
+ Our extensive experiments using real-world data show that, with the labels of only the 5 cluster centroids of 70 historical KPI streams, \name~achieves an averaged best F-score of 0.92 on 81 new KPI streams, almost the same as the state-of-art supervised approach~\cite{liu2015opprentice}, and greatly outperforms an unsupervised approach Isolation Forest~\cite{zhang2018anomaly} by 360\% and the state-of-art unsupervised approach Donut~\cite{xu2018unsupervised} by 61.40\% on average.  
+     
+We believe that \name{} is a significant step towards practical anomaly detection on large-scale KPI streams in Internet-based services. In the future, we plan to adopt more advanced techniques (\EG{} transfer learning~\cite{pan2010survey}) to further improve \name{}'s performance.

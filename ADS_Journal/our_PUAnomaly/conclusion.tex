@@ -1,0 +1,9 @@
+%!TEX root = ../cluster_semi.tex
+\section{Conclusion}
+\label{sec:conclusion}
+This paper proposes a model that uses the PU\_learning algorithm to rapidly deploy anomaly detection for a large number of emerging KPI streams, and as far as possible to ensure the accuracy of the detection results.
+
+In order to reduce the cost of labeling and improve the accuracy of the algorithm, we first used the ROCKA algorithm combined with manual screening to cluster the initial data. Then, the features of KPI curve are extracted, and PU learning is used for anomaly detection of feature files, which is the original contribution of this paper. In the process of using PU learning, we solved the problem that the classification confidence calculated by the random forest classifier is not completely reliable, and improved the active learning algorithm.
+
+In the end, the accuracy of our algorithm is close to that of the fully supervised algorithm, and it is more accurate than the semi-supervised ADS algorithm, and more robust than the unsupervised Donut algorithm. Compared with the ATAD algorithm, due to the different labeling ratio, the achieved result is much better than ATAD.
+

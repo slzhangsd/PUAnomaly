@@ -1,0 +1,101 @@
+%!TEX root = ../cluster_semi.tex
+\section{Introduction}
+\label{sec:introduction}
+% To ensure the stability of the service, large Internet companies need to closely monitor sundry KPIs(Key Performance Indicators, \EG{}, Page Views, success rate, number of online users and latency) to detect anomaly points as soon as possible. T
+% he anomaly points on KPIs are data patterns that have different data characteristics from normal(\EG{}, jitters, slow ramp-ups, spikes or dips). 
+% They often indicate potential risks of related services(\EG{}, machine malfunction, cyber attacks and network overload)~\cite{chen2013provider,zhang2015rapid}. 
+% The detection of anomaly points can reduce the loss of the enterprise. So accurate anomaly detection technology is especially critical.
+
+% \notes{zihan}
+Internet-based services (\EG, online games, online shopping, social networks, search engine) monitor 
+% thousands to millions of
+ \textit{KPIs} (\textit{Key Performance Indicators}, say CPU utilization, number of queries per second, response latency) of  their applications and systems in order to keep their services reliable.  
+Anomalies on KPI (\EG, a spike or dip in a KPI stream) likely indicate underlying failures on Internet services~\cite{chen2013provider,liu2015opprentice,zhang2015rapid,ma2018robust,sun2018hotspot}, such as server failures, network overload, external attacks, and should be accurately and rapidly detected. 
+
+
+Despite the rich body of literature in KPI anomaly detection~\cite{Mahimkar:2011:RDM:2079296.2079309, barford2002signal, Zhang:2005:NA:1251086.1251116, yan2012argus, egads, liu2015opprentice, ding2013anomaly, xu2018unsupervised}, there remains one common and important scenario that has not been studied or well-handled by any of these approaches. Specifically, when large number of KPI streams emerge \emph{continuously and frequently}, operators need to deploy accurate anomaly detection models for these new KPI streams as quickly as possible (\textit{e.g.}, within 3 weeks at most), in order to avoid that Internet-based services suffer from false alarms (due to low precision) and/or missed alarms (because of low recall) and in turn impact on user experience and revenue. Large number of new KPI streams emerge due to the following two reasons. First, new products can be frequently launched, such as in gaming platform. For example, in a top gaming company $G$ studied in this paper, on average over ten new games are launched per quarter, which results in more than 6000 new KPI streams per 10 days on average. Second, with the popularity of DevOps and micro-service, software upgrades become more and more frequent~\cite{zhang2016funnel}, many of which result in the pattern changes of existing KPI streams, making the previous anomaly detection algorithms/parameters outdated. 
+
+	
+Unfortunately, none of the existing anomaly detection approaches, including \emph{traditional statistical algorithms, supervised learning, and unsupervised learning}, are feasible to deal with the above scenario well. 
+For \emph{traditional statistical algorithms}~\cite{Mahimkar:2011:RDM:2079296.2079309, barford2002signal, Zhang:2005:NA:1251086.1251116, yan2012argus}, to achieve the best accuracy, operators have to manually select an anomaly detection algorithm and tune its parameters for \emph{each KPI stream}, which is infeasible for the large number of emerging KPI streams. \emph{Supervised learning} based methods~\cite{egads, liu2015opprentice} require manually labeling anomalies for each new KPI stream, which is not feasible for the large number of emerging KPI streams either. \emph{Unsupervised learning} based methods~\cite{ding2013anomaly, xu2018unsupervised} do not require algorithm selection, parameter tuning, or manual labels, but they either suffer from low accuracy~\cite{zhang2018anomaly} or require large amounts of training data for each new KPI stream (\textit{e.g.}, six months worth of data)~\cite{xu2018unsupervised}, which do not satisfy the requirement of rapid deployment (\textit{e.g.}, within 3 weeks) of accurate anomaly detection.
+% take all anomaly scores calculated by traditional statistical algorithms as features to train models
+
+% With the labelled data, supervised learning  methods are explored. Different from majority vote, these methods can learn the importance of statistical algorithms from data, thereby give the prediction. EGA,,DS~\cite{egads}, and Opprentice~\cite{liu2015opprentice} use label information which experienced operators give according to their domain knowledge to achieve better performance. But these methods heavily rely on precise label. Experts can not label anomaly for every KPI stream. Once a new game launch, experts need to give label for these new KPI streams, which is not feasible.
+
+% \textbf{Unsupervised learning based methods.} To solve algorithm selection and parameter tuning problem, unsupervised learning based methods are explored. These methods take all anomaly scores calculated by above traditional statistical algorithms as features to train models. To name some representative, One-class SVM~\cite{perdisci2006using}, isolation based methods~\cite{liu2012isolation}, and so on. Unsupervised methods are used widely in practice because they do not need experts to label data. However, these method's performance do not always achieve what company expected. 
+
+% \textbf{Supervised learning based methods.} 
+% Operators have to 
+% In practice, experts need to choose effective algorithms and fine-tune algorithm's parameters for different type KPIs. 
+% Obviously, these algorithms are limited and cannot be used in large number of KPIs.
+
+
+
+% However, most anomaly detection algorithms (\EG, Opprentice~\cite{liu2015opprentice}, EDAGS~\cite{egads}, DONUT~\cite{xu2018unsupervised}) assume that an individual model is needed for each KPI. Thus, large-scale anomaly detection on thousands to millions of KPIs is very challenging due to the large overhead of model selection, parameter tuning, model training, or anomaly labeling. 
+% Fortunately, many KPIs are similar due to their implicit associations  and similarities. If we can identify homogeneous KPIs (\EG, number of queries per server in a well-loaded balanced server cluster) based on their similarities and group them into a few clusters, perhaps only one anomaly detection model is needed per cluster, thus significantly reducing the various overhead aforementioned.
+
+% A real world application KPI is a time series with a stable time interval collected by the surveillance system.
+% In this paper, we focus on game-related KPIs. Compared to other fields, game-related KPIs have some unique characteristics.
+% \begin{itemize}
+% 	\item The amount is exceedingly huge. A famous game company always operates hundreds of games simultaneously and monitors millions of KPIs (\EG{} success rate, the number of online gamers and latency). Anomaly detection on so large scale KPIs is an enormous challenge.
+% 	\item The new KPIs will continue to emerge. Only tiny amounts of games can run stably. The new games will replace the games which have short lifes span continuously. With the on-line launch of new games, new KPIs should also be monitored immediately. These is the large overhead of algorithms selection and anomaly labeling.
+% \end{itemize}
+% Different from other service's KPIs, the game-related KPIs are always numerous. In addtion, the new KPIs will continue to emerge with the operation of new games. 
+% Over the years, some traditional time series algorithm~\cite{knorn2008adaptive, lu2009network, pincombe2005anomaly, chen2013provider, yan2012argus} are uesd for KPI anomaly detection. But, they suffer from the overhead of algorithm picking and parameter tuning. In the field of machine learning, unsupervised learning based methods~\cite{perdisci2006using, liu2012isolation} can't always get satisfying performance. Supervised learning based methods perform well enough, but heavily rely on precise labels. The experts can't label anomaly points for every new KPIs.
+
+% Over the years, a large number of anomaly detection algorithms or systems for KPIs have appeared. However, most of them are designed for only a single KPI and can't be applied for millions of KPIs in our scenario. They suffer from the overhead of algorithm picking, parameter tuning and data labelling. Here we briefly discuss three kinds of common methods related to our work.
+
+% \textbf{Traditional statistical algorithm.} In the recent, many traditional time series algorithm are uesd for KPI anomaly detection. Kalman Filtering~\cite{knorn2008adaptive}, Wavelet Analysis~\cite{lu2009network}, ARMA~\cite{pincombe2005anomaly}, Time Series Decomposition~\cite{chen2013provider}, Holt-Winters~\cite{yan2012argus} and so on. These algorithms compute anomaly score for data points based on simple statistical assumptions. In practice, experts need to choose effective algorithms and fine-tune algorithm's parameters for different type KPIs. Obviously, these algorithms are limited and cannot be used in large number of KPIs.
+
+In this paper, we propose \name{},  the first framework that enables the rapid deployment of anomaly detection models (say at most 3 weeks) for large number of emerging KPI streams, without manual algorithm selection, parameter tuning, or new anomaly labeling for any newly emerging KPI streams. 
+
+Our idea of \name{} is based on the following two observations.
+(1) In practice, many KPI streams (\EG, the number of queries per server in a well load balanced server cluster) are similar due to their implicit associations and similarities, thus potentially we can use the similar anomaly detection algorithms and parameters for these similar KPI streams. (2) Clustering methods such as ROCKA~\cite{lirobust} can be used to cluster many KPI streams into clusters according to their similarities. The number of clusters are largely determined by the nature of the service (\textit{e.g.}, shopping, gaming, social network, search) and the type of KPIs (\textit{e.g.}, number of queries, CPU usage, memory usage), but not by the scale of the entire system. Thus for a given service, the number of clusters can be orders of magnitude smaller than the number of KPI streams, and there is a good chance that a newly emerging KPI stream falls into one of the existing clusters resulted from historical KPI streams. 
+
+Utilizing the above two observations, \name{} proposes to (1) cluster all existing/historical KPI streams into clusters, (2) manually label the anomalies of all cluster centroids, (3) assign each newly emerging KPI stream into one of the existing clusters, and (4) combine the data of the new KPI stream (unlabeled) and it's cluster centroid (labeled) and use \emph{semi-supervised learning}~\cite{chapelle2009semi} to train a new model for each new KPI stream. During semi-supervised learning, \name{}'s base model is supervised learning such as~\cite{liu2015opprentice}, thus is able to avoid algorithm selection and parameter tuning. Semi-supervised learning can train a new model for a new KPI stream using an existing labeled KPI stream as long as these two KPI streams have similar data distribution, which is the case since they are in the same cluster. This way, \name{} enjoys the benefits of supervised learning, yet only needs to label a much smaller number of historical KPI streams (\textit{i.e.}, cluster centroids) without labeling new KPI streams. Unsupervised learning based methods are not selected as the base model of \name{} due to low accuracy~\cite{zhang2018anomaly} or the requirement of long period of data for each new KPI stream (\textit{e.g.}, six months worth of data)~\cite{xu2018unsupervised}, but they are nonetheless compared with \name{} in \cref{sec:evaluation}. 
+
+
+%\name{}~detects anomalies in KPI streams as follows.
+%After preprocessing, historical KPI streams are classified into a few clusters using ROCKA~\cite{lirobust}.
+%For each cluster, operators label one KPI streams that are cluster centroids, after which the features(namely, traditional statistical algorithms) are extracted.
+%When a new KPI stream is generated, \name{}~preprocesses the data, classifies it into one of the above clusters, and extracts the features.
+%After that, a robust semi-supervised learning model, contrastive pessimistic likelihood estimation (CPLE), is used to learn an accurate model and an appropriate threshold for this new KPI stream.
+%In this way, \name{}~detects KPI anomalies with much less manual labels of KPI anomalies, automatic (traditional statistical anomaly detection) algorithm selection and parameter tuning, 
+%and rapid training of newly generated KPI streams. 
+%% This methods can reduce the the cost of data labelling significantly and do not need experts to label new KPIs while can also guarantee performance. 
+
+
+% We conduct experiments on 86 real-world KPIs. \name{} gets best F-score higher than 0.90 using only 5 labelled KPIs. The results show that it reduces the labelling overhead greatly.
+% , based on which the features of traditional statistical algorithms (namely, the importance of each algorithm and its parameters) are learned.
+
+
+% perhaps only one anomaly detection model is needed per cluster, thus significantly reducing the various overhead aforementioned.
+
+% In order to make use of limited labelled KPIs and lots of unlabeled KPIs, we think of another way, \textbf{semi-supervised learning model}. In the meantime, although the KPIs are numerous, the kinds of KPIs' shapes are limited because of implicit associations. The data points on similar shape KPIs always have similar data distribution, so we can train semi-supervised learning model on the similar shape KPIs. 
+
+% In this direction, we propose \name{}, a precise anomaly detection algorithm based on KPI clustering method \textbf{ROCKA} and semi-supervised learning model \textbf{CPLE}.
+
+% First the ROCKA can clustering KPIs according their shapes, then we choose the cluster centroids to label. 
+% Once the new curve appears, we can assign it to thre nearest cluster and utilize shape similarity to train semi-supervised learning model on both labelled cluster centroid and unlabelled new KPI to give anomaly scores for this new KPI. 
+% Finally, we choose the appropriate threshold which the point's anomaly score given by model exceeds will be regard as an anomaly point. 
+% We don't use the default one(\EG{}, 0.5) because the default threshold often have a bad performance in class-imbalance problem~\cite{he2008learning}(anomaly ponits are much less than normal points). 
+% This methods can reduce the the cost of data labelling significantly and do not need experts to label new KPIs while can also guarantee performance. 
+% It meets the characteristics of game operation.
+
+
+The contributions of this paper are summarized as follows:
+\begin{itemize}
+	\item To the best of our knowledge, this paper is the first to identify the common and important problem of \textit{rapid deployment of anomaly detection models for large number of emerging KPI streams, without manual algorithm selection, parameter tuning, or new anomaly labeling for any newly generated KPI streams}, and proposes the first framework \name{} that tackles this problem. 
+	
+	\item To the best of our knowledge, this paper is the first to apply semi-supervised learning to the KPI anomaly detection problem. We adopt a robust semi-supervised learning model, contrastive pessimistic likelihood estimation (CPLE), which is suitable for KPI anomaly detection and only requires \textit{similar} (not necessarily \textit{the same}) data distribution between the existing labeled KPI stream and the new KPI stream. 
+	
+	\item We conduct extensive experiments using 70 historical KPI streams and 81 new KPI streams from a top global online game service $G$. With the labels of only the 5 cluster centroids of 70 historical KPI streams, \name~achieves an averaged best F-score of 0.92 on 81 new KPI streams, almost the same as the state-of-art supervised approach~\cite{liu2015opprentice} which requires the labels for all 81 new KPI streams, and greatly outperforms an unsupervised approach Isolation Forest~\cite{zhang2018anomaly} by 360\% and the state-of-art unsupervised approach Donut~\cite{xu2018unsupervised} by 61.40\% on average. 
+	% \item We find a suitable threshold selection method for semi-supervised learning model on anomaly detection which means \name{} is highly practical.
+\end{itemize}
+
+The rest of this paper is organized as follows. 
+In Section~\ref{sec:background-and-challenges}, we review the background, related works and motivation.
+% In Section~\ref{sec:related}, we introduce the related work about anomaly detection on KPI streams.
+The framework of \name{} is introduced in Section~\ref{sec:algorithm}.
+% In  we introduce the entire framework of the \name{}. 
+We report the experimental results of evaluating~\name{} in Section~\ref{sec:evaluation}. Finally, we give a conclusion of this paper in Section~\ref{sec:conclusion}.

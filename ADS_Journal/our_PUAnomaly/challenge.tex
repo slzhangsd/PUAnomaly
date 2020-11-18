@@ -1,0 +1,21 @@
+\section{Challenge and Design overview}
+\label{sec:challenge}
+
+In this section, we will introduce the challenges of this paper and outline the solutions we have adopted.
+
+\subsection{Challenges}
+\label{subsubsec:challenges}
+The challenges of this paper are summarized as follows:
+
+(1) Most anomaly detection algorithms assume that each KPI needs to be trained in a separate model. Large-scale anomaly detection is very challenging due to the heavy overhead of model selection, parameter tuning, model training, or exception labeling. At the same time, if a model is trained for all KPIs, due to the variety of KPI features, the problem of inaccurate prediction will occur.
+
+(2) For the time series anomaly detection algorithm, most active learning methods will label the classification boundaries samples. While such method may cause some normal samples with high similarity to anomalous samples to be misclassified into anomalous class. Then due to the high degree of similarity between normal samples, it will cause more and more normal samples to be incorrectly labeled as anomalous samples.
+
+
+As shown in Figure~\ref{fig:challenges}, \autoref{a} illustrates an intermediate state in the process of data labeling. Red represents anomalous samples and blue represents normal samples. At this time, many data points are not labeled. As shown in \autoref{b}, when using the semi-supervised method to label unlabeled data iteratively, because some normal samples have a high similarity to anomalous samples, it is likely that normal samples are labeled as anomalous samples. When a normal sample is incorrectly judged as an anomalous sample, due to the high similarity between normal samples, more and more normal samples will be added as anomalous samples in the subsequent semi-supervised iteration process as \autoref{c} shows. The final labeled result is shown in \autoref{d}. We can conclude that such a selection strategy has the risk of not obtaining 
+a good performance of the time series anomaly detection.
+
+\subsection{Design Overview}
+In order to meet challenge (1), \name{} uses the ROCKA\cite{lirobust} clustering algorithm to group the huge volume of KPI streams into a few clusters. In this way, we can reduce the overhead of anomaly detection of KPI streams, and the accuracy of prediction is also guaranteed. In order to meet challenge (2), we carried out related experiments and proved that for KPI streams, labeling the most likely normal samples can achieve the best performance.
+
+
